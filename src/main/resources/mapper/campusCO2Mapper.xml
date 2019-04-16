@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncepu.campus_environment.mapper.CampusCO2Mapper">
+
+    <resultMap id="campusCO2Mapper" type="com.ncepu.campus_environment.entity.CampusCO2">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="node" jdbcType="VARCHAR" property="node"/>
+        <result column="air_co2" jdbcType="VARCHAR" property="airCO2"/>
+        <result column="receive_time" jdbcType="TIMESTAMP" property="receiveTime"/>
+    </resultMap>
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="campusCO2Mapper">
+        SELECT * FROM campus_environment.campus_co2 WHERE id = #{id}
+    </select>
+    <select id="selectByNode" parameterType="java.util.Map" resultMap="campusCO2Mapper">
+        SELECT * FROM campus_environment.campus_co2 WHERE campus_co2.node = #{node}
+        ORDER BY campus_co2.receive_time DESC LIMIT #{limit}
+    </select>
+    <insert id="insertData" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
+        INSERT into campus_environment.campus_co2 (node, air_co2, receive_time) values
+            (#{node, jdbcType=VARCHAR},
+             #{airCO2, jdbcType=VARCHAR},
+             #{receiveTime, jdbcType=TIMESTAMP})
+    </insert>
+    <delete id="deleteByNode" parameterType="java.lang.String">
+        DELETE FROM campus_co2 WHERE node = #{node}
+    </delete>
+
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncepu.campus_environment.mapper.CampusPMMapper">
+
+    <resultMap id="campusPMMapper" type="com.ncepu.campus_environment.entity.CampusPM">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="node" jdbcType="VARCHAR" property="node"/>
+        <result column="air_pm1" jdbcType="VARCHAR" property="airPM1"/>
+        <result column="air_pm25" jdbcType="VARCHAR" property="airPM25"/>
+        <result column="air_pm10" jdbcType="VARCHAR" property="airPM10"/>
+        <result column="receive_time" jdbcType="TIMESTAMP" property="receiveTime"/>
+    </resultMap>
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="campusPMMapper">
+        SELECT * FROM campus_environment.campus_pm WHERE id = #{id}
+    </select>
+    <select id="selectByNode" parameterType="java.util.Map" resultMap="campusPMMapper">
+        SELECT * FROM campus_environment.campus_pm WHERE campus_pm.node = #{node}
+        ORDER BY campus_pm.receive_time DESC LIMIT #{limit}
+    </select>
+    <insert id="insertData" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
+        INSERT into campus_environment.campus_pm (node, air_pm1, air_pm25, air_pm10, receive_time) values
+            (#{node, jdbcType=VARCHAR},
+             #{airPM1, jdbcType=VARCHAR},
+             #{airPM25, jdbcType=VARCHAR},
+             #{airPM10, jdbcType=VARCHAR},
+             #{receiveTime, jdbcType=TIMESTAMP})
+    </insert>
+    <delete id="deleteByNode" parameterType="java.lang.String">
+        DELETE FROM campus_pm WHERE node = #{node}
+    </delete>
+
+</mapper>

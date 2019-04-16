@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncepu.campus_environment.mapper.CampusPressureMapper">
+
+    <resultMap id="campusPressureMapper" type="com.ncepu.campus_environment.entity.CampusPressure">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="node" jdbcType="VARCHAR" property="node"/>
+        <result column="pressure" jdbcType="VARCHAR" property="pressure"/>
+        <result column="receive_time" jdbcType="TIMESTAMP" property="receiveTime"/>
+    </resultMap>
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="campusPressureMapper">
+        SELECT * FROM campus_environment.campus_pressure WHERE id = #{id}
+    </select>
+    <select id="selectByNode" parameterType="java.util.Map" resultMap="campusPressureMapper">
+        SELECT * FROM campus_environment.campus_pressure WHERE campus_pressure.node = #{node}
+        ORDER BY campus_pressure.receive_time DESC LIMIT #{limit}
+    </select>
+    <insert id="insertData" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
+        INSERT into campus_environment.campus_pressure (node, pressure, receive_time) values
+            (#{node, jdbcType=VARCHAR},
+             #{pressure, jdbcType=VARCHAR},
+             #{receiveTime, jdbcType=TIMESTAMP})
+    </insert>
+    <delete id="deleteByNode" parameterType="java.lang.String">
+        DELETE FROM campus_pressure WHERE node = #{node}
+    </delete>
+
+</mapper>

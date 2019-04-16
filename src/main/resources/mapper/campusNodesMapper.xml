@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncepu.campus_environment.mapper.CampusNodesMapper">
+
+    <resultMap id="campusNodesMapper" type="com.ncepu.campus_environment.entity.CampusNodes">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="number" jdbcType="VARCHAR" property="number"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+    </resultMap>
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="campusNodesMapper">
+        SELECT * FROM campus_environment.campus_nodes WHERE id = #{id}
+    </select>
+    <select id="selectByNode" parameterType="java.lang.String" resultMap="campusNodesMapper">
+        SELECT * FROM campus_environment.campus_nodes WHERE number = #{number}
+        ORDER BY id DESC LIMIT 1
+    </select>
+    <insert id="updateNode" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="id">
+        INSERT into campus_environment.campus_nodes (number, name, location) values
+            (#{number, jdbcType=VARCHAR},
+             #{name, jdbcType=VARCHAR},
+             #{location, jdbcType=VARCHAR})
+    </insert>
+    <delete id="deleteNode" parameterType="java.lang.String">
+        DELETE FROM campus_environment.campus_nodes WHERE campus_nodes.number = #{number}
+    </delete>
+
+</mapper>
